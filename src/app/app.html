@@ -1,1 +1,87 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<header class="main-header">
+  <button ion-button color="secondary" class="newGame" (click)="newGame()">New game</button>
+  <div class="select-wrapper">
+    <ion-item>
+      <ion-label>Select game mode</ion-label>
+      <ion-select [(ngModel)]="mode" (ionChange)="newGame()">
+        <ion-option value="pve">PVE</ion-option>
+        <ion-option value="pvp">PVP</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+</header>
+<div *ngIf="mode === 'pve';else pvp;" class="playersSelect">
+  <div>Choose Player</div>
+  <div class="btns-wrapper">
+    <button [disabled]="gameBegin" (click)="choosePlayer('X')" ion-button>X</button>
+    <button [disabled]="gameBegin" (click)="choosePlayer('O')" ion-button color="danger">O</button>
+  </div>
+
+  <div>Or start play</div>
+</div>
+
+
+<ng-template #pvp>
+  <div class="playersSelect">
+    Current move: <span [ngClass]="{'blue': turn === playerOne, 'red': turn === playerTwo}">{{turn}}</span>
+  </div>
+
+</ng-template>
+
+<div class="loader-wrapper" *ngIf="showLoader">
+  <div class="sk-fading-circle">
+    <div class="sk-circle1 sk-circle"></div>
+    <div class="sk-circle2 sk-circle"></div>
+    <div class="sk-circle3 sk-circle"></div>
+    <div class="sk-circle4 sk-circle"></div>
+    <div class="sk-circle5 sk-circle"></div>
+    <div class="sk-circle6 sk-circle"></div>
+    <div class="sk-circle7 sk-circle"></div>
+    <div class="sk-circle8 sk-circle"></div>
+    <div class="sk-circle9 sk-circle"></div>
+    <div class="sk-circle10 sk-circle"></div>
+    <div class="sk-circle11 sk-circle"></div>
+    <div class="sk-circle12 sk-circle"></div>
+  </div>
+</div>
+<div class="wrapper">
+
+
+  <div class="border-row border-row_first">
+    <div class="row__cell" *ngFor="let cell of (board | slice:0:4); let i = index;">
+      <div class="content"
+           [ngClass]="{'animated' : clickedCell === i, 'blue': cell === playerOne, 'red': cell === playerTwo}"
+           (click)="userMove(i, $event.target)">{{cell}}
+      </div>
+    </div>
+  </div>
+  <div class="border-row border-row_second">
+    <div class="row__cell" *ngFor="let cell of (board | slice:4:8); let i = index;">
+      <div class="content"
+           [ngClass]="{'animated' : clickedCell === i + 4, 'blue': cell === playerOne, 'red': cell === playerTwo}"
+           (click)="userMove(i + 4, $event.target)">
+        {{cell}}
+      </div>
+    </div>
+  </div>
+  <div class="border-row border-row_third">
+    <div class="row__cell" *ngFor="let cell of (board | slice:8:12); let i = index;">
+      <div class="content"
+           [ngClass]="{'animated' : clickedCell === i + 8, 'blue': cell === playerOne, 'red': cell === playerTwo}"
+           (click)="userMove(i + 8, $event.target)">
+        {{cell}}
+      </div>
+    </div>
+  </div>
+  <div class="border-row border-row_fourth">
+    <div class="row__cell" *ngFor="let cell of (board | slice:12:16); let i = index;">
+      <div class="content"
+           [ngClass]="{'animated' : clickedCell === i + 12, 'blue': cell === playerOne, 'red': cell === playerTwo}"
+           (click)="userMove(i + 12, $event.target)">
+        {{cell}}
+      </div>
+    </div>
+  </div>
+
+</div>
+
