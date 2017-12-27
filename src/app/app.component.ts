@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -7,7 +7,7 @@ import {AlertController} from 'ionic-angular';
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp implements OnInit {
+export class MyApp {
   mode: string = 'pve';
   turn: string = 'X';
   clickedCell: number;
@@ -18,6 +18,7 @@ export class MyApp implements OnInit {
   gameBegin: boolean = false;
   board: Array<string> = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
   winArrays: number[][] = [
+    [3, 6, 9, 12],
     [0, 1, 2, 3],
     [4, 5, 6, 7],
     [8, 9, 10, 11],
@@ -29,7 +30,7 @@ export class MyApp implements OnInit {
     [3, 7, 11, 15],
 
     [0, 5, 10, 15],
-    [3, 6, 9, 12]
+
   ];
 
 
@@ -42,8 +43,8 @@ export class MyApp implements OnInit {
     });
   }
 
-  ngOnInit() {
-    //shuffle array
+
+  shuffleArray(){
     let counter = this.winArrays.length;
     while (counter > 0) {
       let index = Math.floor(Math.random() * counter);
@@ -55,6 +56,7 @@ export class MyApp implements OnInit {
   }
 
   newGame() {
+    this.shuffleArray();
     this.turn = 'X';
     this.playerOne = 'X';
     this.playerTwo = 'O';
@@ -111,6 +113,9 @@ export class MyApp implements OnInit {
         }
         if (this.board[winArray[winCell]] === this.playerOne) {
           userFillCells += 1;
+          console.log('userFillCells', userFillCells);
+          console.log('compFillCells', compFillCells);
+          console.log('emptyCell', emptyCell);
         }
         if (this.board[winArray[winCell]] === this.playerTwo) {
           compFillCells += 1;
@@ -118,7 +123,8 @@ export class MyApp implements OnInit {
         if (compFillCells === 3 && userFillCells === 0) {
           break preventPlayerWin;
         }
-        if (userFillCells === 3 && compFillCells === 0 && emptyCell) {
+        if (userFillCells === 3 && compFillCells === 0 && emptyCell !== undefined) {
+          console.log('333333');
           this.generateClick(emptyCell);
           return;
         }
