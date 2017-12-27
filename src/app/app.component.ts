@@ -113,9 +113,6 @@ export class MyApp {
         }
         if (this.board[winArray[winCell]] === this.playerOne) {
           userFillCells += 1;
-          console.log('userFillCells', userFillCells);
-          console.log('compFillCells', compFillCells);
-          console.log('emptyCell', emptyCell);
         }
         if (this.board[winArray[winCell]] === this.playerTwo) {
           compFillCells += 1;
@@ -124,7 +121,6 @@ export class MyApp {
           break preventPlayerWin;
         }
         if (userFillCells === 3 && compFillCells === 0 && emptyCell !== undefined) {
-          console.log('333333');
           this.generateClick(emptyCell);
           return;
         }
