@@ -34,7 +34,8 @@ export class MyApp {
   ];
 
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController) {
+
+  constructor(private platform: Platform, private statusBar: StatusBar,private splashScreen: SplashScreen, public alertCtrl: AlertController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -117,12 +118,12 @@ export class MyApp {
         if (this.board[winArray[winCell]] === this.playerTwo) {
           compFillCells += 1;
         }
-        if (compFillCells === 3 && userFillCells === 0) {
-          break preventPlayerWin;
-        }
-        if (userFillCells === 3 && compFillCells === 0 && emptyCell !== undefined) {
+        if (userFillCells === 3 && compFillCells === 0 && emptyCell !== undefined && winCell === winArray.length - 1) {
           this.generateClick(emptyCell);
           return;
+        }
+        if (compFillCells === 3 && userFillCells === 0 && winCell === winArray.length - 1) {
+          break preventPlayerWin;
         }
       }
     }
